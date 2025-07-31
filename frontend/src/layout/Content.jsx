@@ -1,4 +1,4 @@
-import Footer from "./Footer";
+import { useEffect, useState } from "react";
 
 function Greeting() {
   return (
@@ -32,7 +32,7 @@ function Greeting() {
           technically robust but also strategically aligned with user and
           organizational goals.
         </p>
-        <div class="flex pt-8">
+        <div className="flex pt-8">
           <span className="material-symbols-outlined text-slate-500">
             location_on
           </span>
@@ -40,7 +40,7 @@ function Greeting() {
             Pontianak, Kalimantan Barat, Indonesia
           </span>
         </div>
-        <div class="flex items-center pt-2">
+        <div className="flex items-center pt-2">
           <div className="rounded-full w-2 h-2 bg-green-500"></div>
           <span className="text-slate-500 ml-2">
             Available for new projects
@@ -119,10 +119,8 @@ function TechStack() {
       <marquee direction="right" className="pt-14 mx-14">
         <div className="flex">
           {techStacks.map((e, i) => (
-            <div className="flex-col items-center justify-center">
-              <div
-                key={i}
-                className="flex animate-marquee-right rounded-2xl w-20 h-20 shadow-md shadow-slate-200 bg-white mx-8 hover:shadow-slate-300 justify-center items-center min-w-min">
+            <div key={i} className="flex-col items-center justify-center">
+              <div className="flex animate-marquee-right rounded-2xl w-20 h-20 shadow-md shadow-slate-200 bg-white mx-8 hover:shadow-slate-300 justify-center items-center min-w-min">
                 <img className="w-12 h-12" src={e.url} alt={e.name} />
               </div>
               <div className="w-full mt-1 text-slate-600 text-center">
@@ -202,56 +200,90 @@ function WorkExperiences() {
 }
 
 function MyProjects() {
-  const projects = [
+  const defaultProjects = [
     {
-      name: "General POS",
-      desc: "General POS is a scalable Point of Sale system built with the MEAN Stack, designed to support modern business operations. It includes real-time analytics, multi-business and warehouse management, product variation handling, and secure transactions with Slack integration—making it a flexible and powerful solution for growing businesses.",
+      project_name: "General POS",
+      description:
+        "General POS is a scalable Point of Sale system built with the MEAN Stack, designed to support modern business operations...",
       techs: "Angular,TypeScript,HTML5,CSS3",
-      github: "",
-      url: "http://general-pos-fe.vercel.app",
-      image:
-        "https://plus.unsplash.com/premium_photo-1753071355370-e8025111987f?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      github_url: "",
+      live_demo_url: "http://general-pos-fe.vercel.app",
+      image_url:
+        "https://plus.unsplash.com/premium_photo-1753071355370-e8025111987f?q=80&w=2070&auto=format&fit=crop",
     },
   ];
+
+  const [projects, setProjects] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetch("http://localhost:3000/projects")
+      .then((res) => res.json())
+      .then((data) => {
+        if (Array.isArray(data.data)) {
+          setProjects(data.data);
+        }
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.error("Failed to fetch projects:", err);
+        setLoading(false);
+      });
+  }, []);
+
   return (
     <div id="projects">
       <h1 className="text-gray-900 font-bold text-3xl ml-12 pt-20">
         My Projects:
       </h1>
       <div className="flex flex-wrap justify-between mt-14 mx-14">
-        {projects.map((e, i) => (
+        {[...defaultProjects, ...projects].map((e, i) => (
           <div
             key={i}
             className="flex-col shadow w-24/50 min-h-min rounded-2xl min-w-min mb-10 hover:shadow-slate-300">
             <div className="w-full bg-gray-100 rounded-t-2xl flex justify-center">
-              <img src={e.image} alt={e.name} className="h-50" />
+              <img
+                src={e.image_url || e.image}
+                alt={e.project_name || e.name}
+                className="h-50"
+              />
             </div>
             <div className="flex-col p-6">
-              <span className="font-bold text-2xl text-gray-900">{e.name}</span>
-              <p className="mt-4 text-md text-gray-600">{e.desc}</p>
-              <div className="pt-4 flex">
-                {e.techs.split(",").map((el, j) => (
+              <span className="font-bold text-2xl text-gray-900">
+                {e.project_name || e.name}
+              </span>
+              <p className="mt-4 text-md text-gray-600">
+                {e.description || e.desc}
+              </p>
+              <div className="pt-4 flex flex-wrap">
+                {(e.techs || "").split(",").map((el, j) => (
                   <div
                     key={j}
-                    className="rounded-4xl py-0 px-4 mr-2 bg-gray-100 text-slate-500 text-md">
+                    className="rounded-4xl py-0 px-4 mr-2 mb-2 bg-gray-100 text-slate-500 text-md">
                     {el}
                   </div>
                 ))}
               </div>
               <div className="flex pt-6 gap-6">
                 <a
-                  href={e.github ? e.github : null}
+                  href={e.github_url || e.github || "#"}
                   className={
-                    (e.github ? "text-blue-700" : "text-slate-400") + " text-sm"
+                    (e.github_url || e.github
+                      ? "text-blue-700"
+                      : "text-slate-400") + " text-sm"
                   }>
-                  {e.github ? "View on Github" : "Private Repository"}
+                  {e.github_url || e.github
+                    ? "View on Github"
+                    : "Private Repository"}
                 </a>
                 <a
-                  href={e.url ? e.url : null}
+                  href={e.live_demo_url || e.url || "#"}
                   className={
-                    (e.url ? "text-blue-700" : "text-slate-400") + " text-sm"
+                    (e.live_demo_url || e.url
+                      ? "text-blue-700"
+                      : "text-slate-400") + " text-sm"
                   }>
-                  {e.url ? "Live Demo" : "Demo Unavailable"}
+                  {e.live_demo_url || e.url ? "Live Demo" : "Demo Unavailable"}
                 </a>
               </div>
             </div>
@@ -287,7 +319,6 @@ function Content() {
       <WorkExperiences />
       <MyProjects />
       <LetsBuild />
-      <Footer />
     </div>
   );
 }

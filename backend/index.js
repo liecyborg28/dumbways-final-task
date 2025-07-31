@@ -25,8 +25,10 @@ app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 // Multer config for file upload
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    const dir = "./uploads";
-    if (!fs.existsSync(dir)) fs.mkdirSync(dir);
+    const dir = path.join(__dirname, "uploads");
+    if (!fs.existsSync(dir)) {
+      fs.mkdirSync(dir, { recursive: true });
+    }
     cb(null, dir);
   },
   filename: (req, file, cb) => {
@@ -108,21 +110,24 @@ app.post("/projects", async (req, res) => {
   }
 });
 
-// POST /upload - upload image
+// Route untuk upload gambar
 app.post("/upload", upload.single("image"), (req, res) => {
   if (!req.file) {
-    return res
-      .status(400)
-      .json({ success: false, message: "No file uploaded" });
+    return res.status(400).json({
+      success: false,
+      message: "No file uploaded",
+    });
   }
 
+  // Buat URL absolut ke file
   const fileUrl = `${req.protocol}://${req.get("host")}/uploads/${
     req.file.filename
   }`;
+
   res.status(200).json({
     success: true,
     message: "File uploaded successfully",
-    url: fileUrl,
+    url: fileUrl, // ini yang bisa digunakan di frontend sebagai src img
   });
 });
 

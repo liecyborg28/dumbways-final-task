@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 function Link({ section }) {
   return (
     <a
@@ -9,6 +11,7 @@ function Link({ section }) {
 }
 
 function Navbar() {
+  const [mode, setMode] = useState("light_mode");
   const sections = [
     {
       name: "Tech Stack",
@@ -23,6 +26,15 @@ function Navbar() {
       url: "#projects",
     },
   ];
+
+  function handleMode() {
+    if (mode === "light_mode") {
+      setMode("dark_mode");
+    } else {
+      setMode("light_mode");
+    }
+  }
+
   return (
     <div className="flex justify-between items-center max-w-7xl w-full h-18 fixed bg-white z-50">
       <img
@@ -56,16 +68,11 @@ function Navbar() {
           />
           <span className="">Download CV</span>
         </a>
-        <button className="cursor-pointer py-2 px-4">
+        <button className="cursor-pointer py-2 px-4" onClick={handleMode}>
           <span className="material-symbols-outlined text-slate-500 hover:text-slate-900">
-            dark_mode
+            {mode}
           </span>
         </button>
-        {/* <button className="cursor-pointer py-2 px-4">
-          <span className="material-symbols-outlined text-slate-500 hover:text-slate-900">
-            light_mode
-          </span>
-        </button> */}
       </div>
     </div>
   );

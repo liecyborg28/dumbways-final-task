@@ -42,7 +42,7 @@ function Add() {
 
     setLoading(true);
     try {
-      const res = await fetch("http://localhost:4000/upload", {
+      const res = await fetch("http://localhost:3000/upload", {
         method: "POST",
         body: data,
       });
@@ -69,7 +69,7 @@ function Add() {
     setLoading(true);
 
     try {
-      const res = await fetch("http://localhost:4000/projects", {
+      const res = await fetch("http://localhost:3000/projects", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
