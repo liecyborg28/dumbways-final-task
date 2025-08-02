@@ -4,13 +4,13 @@ function Link({ section }) {
   return (
     <a
       href={`${section.url}`}
-      className="m-2 text-slate-500 hover:text-slate-900">
+      className="m-2 text-slate-500 hover:text-slate-900 sm:hidden lg:block">
       {section.name}
     </a>
   );
 }
 
-function Navbar() {
+function Navbar({ onOpenDrawer }) {
   const [mode, setMode] = useState("light_mode");
   const sections = [
     {
@@ -30,13 +30,15 @@ function Navbar() {
   function handleMode() {
     if (mode === "light_mode") {
       setMode("dark_mode");
+      document.documentElement.classList.add("dark");
     } else {
       setMode("light_mode");
+      document.documentElement.classList.remove("dark");
     }
   }
 
   return (
-    <div className="flex justify-between items-center max-w-7xl w-full h-18 fixed bg-white z-50">
+    <div className="flex justify-between items-center max-w-7xl w-full h-18 fixed bg-white dark:bg-blue-950 z-50">
       <img
         src="/logo.png"
         alt="logo"
@@ -71,6 +73,13 @@ function Navbar() {
         <button className="cursor-pointer py-2 px-4" onClick={handleMode}>
           <span className="material-symbols-outlined text-slate-500 hover:text-slate-900">
             {mode}
+          </span>
+        </button>
+        <button
+          className="cursor-pointer py-2 px-4 sm:block lg:hidden"
+          onClick={onOpenDrawer}>
+          <span className="material-symbols-outlined text-slate-500 hover:text-slate-900">
+            menu
           </span>
         </button>
       </div>

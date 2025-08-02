@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import Footer from "./Footer";
 
 function Greeting() {
   return (
@@ -7,12 +8,12 @@ function Greeting() {
         <img
           src="/avatar.png"
           alt="avatar"
-          className="w-80 rounded-xl m-8 ml-14 shadow-xl shadow-slate-600 transition ease-in-out duration-500 hover:scale-105"
+          className="sm:w-60 lg:w-80 rounded-xl m-8 ml-14 shadow-xl shadow-slate-600 transition ease-in-out duration-500 hover:scale-105"
         />
       </div>
-      <div className="w-3/5 flex-col mr-8">
-        <div className="flex items-center">
-          <h1 className="text-gray-900 font-bold text-6xl"> Hi, I'm Nando</h1>
+      <div className="sm:1/1 lg:w-3/5 lg:flex-col mr-8 sm:items-center lg:items-start">
+        <div className="flex sm:justify-center lg:justify-normal sm:pt-8 lg:pt-0 lg:items-center">
+          <h1 className="text-gray-900 font-bold text-6xl">Hi, I'm Nando</h1>
           <img
             className="w-14 ml-4"
             src="https://img.icons8.com/?size=100&id=17672&format=png&color=000000"
@@ -20,10 +21,10 @@ function Greeting() {
           />
         </div>
 
-        <div className="text-2xl text-slate-600 font-semibold my-4">
+        <div className="text-2xl text-slate-600 font-semibold my-4 sm:text-center lg:text-left">
           Full-Stack Developer
         </div>
-        <p className="text-xl text-slate-600">
+        <p className="text-xl text-slate-600 sm:text-center sm:mx-14 lg:mx-0 lg:text-left">
           I am a passionate and results-oriented Fullstack Developer with two
           years of hands-on experience in building full-stack web applications
           using the MEAN and MERN stacks. With an academic background in
@@ -32,7 +33,7 @@ function Greeting() {
           technically robust but also strategically aligned with user and
           organizational goals.
         </p>
-        <div className="flex pt-8">
+        <div className="flex pt-8 sm:justify-center lg:justify-normal">
           <span className="material-symbols-outlined text-slate-500">
             location_on
           </span>
@@ -40,13 +41,13 @@ function Greeting() {
             Pontianak, Kalimantan Barat, Indonesia
           </span>
         </div>
-        <div className="flex items-center pt-2">
+        <div className="flex items-center pt-2 sm:justify-center lg:justify-normal">
           <div className="rounded-full w-2 h-2 bg-green-500"></div>
           <span className="text-slate-500 ml-2">
             Available for new projects
           </span>
         </div>
-        <div className="flex mt-4">
+        <div className="flex mt-4 sm:justify-center lg:justify-normal">
           <a
             target="_blank"
             href="https://api.whatsapp.com/send/?phone=6285250621375&text&type=phone_number&app_absent=0"
@@ -123,7 +124,7 @@ function TechStack() {
               <div className="flex animate-marquee-right rounded-2xl w-20 h-20 shadow-md shadow-slate-200 bg-white mx-8 hover:shadow-slate-300 justify-center items-center min-w-min">
                 <img className="w-12 h-12" src={e.url} alt={e.name} />
               </div>
-              <div className="w-full mt-1 text-slate-600 text-center">
+              <div className="w-full text-slate-600 text-center pt-1">
                 {e.name}
               </div>
             </div>
@@ -165,7 +166,7 @@ function WorkExperiences() {
             <div className="flex w-full">
               <img className="w-18 max-h-max mr-8" src={e.url} alt={e.name} />
               <div className="flex-col w-full">
-                <div className="flex justify-between w-full">
+                <div className="flex lg:flex-row sm:flex-col justify-between w-full">
                   <div className="flex-col">
                     <div className="font-bold text-xl text-gray-900">
                       {e.as}
@@ -181,7 +182,7 @@ function WorkExperiences() {
                     </li>
                   ))}
                 </ul>
-                <div className="pt-4 flex">
+                <div className="pt-4 flex flex-wrap">
                   {e.skills.map((el, j) => (
                     <div
                       key={j}
@@ -240,7 +241,7 @@ function MyProjects() {
         {[...defaultProjects, ...projects].map((e, i) => (
           <div
             key={i}
-            className="flex-col shadow w-24/50 min-h-min rounded-2xl min-w-min mb-10 hover:shadow-slate-300">
+            className="flex-col sm:w-full shadow lg:w-24/50 min-h-min rounded-2xl min-w-min mb-10 hover:shadow-slate-300">
             <div className="w-full bg-gray-100 rounded-t-2xl flex justify-center">
               <img
                 src={e.image_url || e.image}
@@ -259,7 +260,7 @@ function MyProjects() {
                 {(e.techs || "").split(",").map((el, j) => (
                   <div
                     key={j}
-                    className="rounded-4xl py-0 px-4 mr-2 mb-2 bg-gray-100 text-slate-500 text-md">
+                    className="rounded-4xl py-0 px-4 mr-2 mb-2 bg-gray-100 text-slate-500 text-md mt-1">
                     {el}
                   </div>
                 ))}
@@ -319,6 +320,7 @@ function Content() {
       <WorkExperiences />
       <MyProjects />
       <LetsBuild />
+      <Footer />
     </div>
   );
 }
